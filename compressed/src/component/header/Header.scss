@@ -1,0 +1,104 @@
+@import "../css-config/mixins.scss";
+
+.main-header {
+  width: 95%;
+  padding: 10px 20px; /* Adjusted padding */
+  z-index: 99;
+  background-color: #212121;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Improved border color */
+  
+  @include md {
+    padding: 10px 40px; /* Adjusted padding for medium-sized screens */
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px; /* Increased height for better visibility */
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    @include md {
+      height: 80px;
+    }
+    
+    .left {
+      list-style-type: none;
+      display: none;
+      gap: 25px;
+      cursor: pointer;
+      
+      .light {
+        width: 20px;
+        height: 30px;
+        background-color: #ffcc00; /* Yellow color for the light */
+        border-radius: 50%; /* Ensures the light is circular */
+      }
+      @include md {
+        display: flex;
+      }
+    }
+    
+    .center {
+      font-size: 24px; /* Increased font size for better visibility */
+      font-weight: 700;
+      cursor: pointer;
+      
+      .arrow-down:hover {
+        cursor: pointer;
+        svg {
+          transform: translateY(3px); /* Adjust the icon position on hover */
+        }
+      }
+      
+      .arrow-up:hover {
+        cursor: pointer;
+        svg {
+          transform: translateY(-3px); /* Adjust the icon position on hover */
+        }
+      }
+      
+      @include md {
+        font-size: 28px;
+      }
+    }
+    
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      
+      
+      @include md {
+        gap: 25px;
+      }  
+      
+      .login,
+      .signUP {
+        padding: 10px 20px;
+        background-color: #ffcc00; /* Yellow background for buttons */
+        border: 1px solid #ffcc00; /* Same color border */
+        border-radius: 5px;
+        color: #212121; /* Dark text color */
+        font-size: 16px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        @include md {
+          padding: 12px 24px; /* Adjusted padding for medium-sized screens */
+          font-size: 18px; /* Increased font size for medium-sized screens */
+        }
+      }
+      
+      .login:hover,
+      .signUP:hover {
+        background-color: white; /* White background on hover */
+        color: #ffcc00; /* Yellow text color on hover */
+        border-color: white; /* White border color on hover */
+      }
+    }
+  }
+}
