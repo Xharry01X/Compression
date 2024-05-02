@@ -29,7 +29,9 @@
       display: none;
       gap: 25px;
       cursor: pointer;
-      
+      .title{
+        color: #ffffff;
+      }
       .light {
         width: 20px;
         height: 30px;
@@ -112,10 +114,10 @@
 }
 
 @keyframes StickyHeader {
-  0% {
-      transform: translateY(-60px);
-  }
-  100% {
-      transform: translateY(0);
-  }
+    0% {
+        transform: translateY(-60px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }

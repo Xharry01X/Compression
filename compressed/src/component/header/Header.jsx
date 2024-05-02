@@ -34,7 +34,7 @@ return ()=>{
       
         <div className="header-content">
           <div className="left">
-            <h3>𝒸ℴ𝓂𝓅𝓇ℯ𝓈𝓈𝒾𝒻𝓎
+            <h3 className='title'>𝒸ℴ𝓂𝓅𝓇ℯ𝓈𝓈𝒾𝒻𝓎
               <img className='light' src={lightning} alt='bolt'/>
             </h3>
           </div>

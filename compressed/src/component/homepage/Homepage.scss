@@ -1,0 +1,58 @@
+@import "../css-config/mixins.scss";
+
+.outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f3f3f3; /* Light gray background */
+  }
+  
+  .inner {
+    text-align: center;
+  }
+  
+  h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333; /* Dark gray text color */
+  }
+  
+  .upload {
+    padding: 20px;
+    border: 2px dashed #ccc; /* Light gray dashed border */
+    border-radius: 10px;
+    background-color: #fff; /* White background */
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .upload:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+  }
+  
+  .upload text {
+    font-size: 18px;
+    color: #333; /* Dark gray text color */
+  }
+  
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .icon svg {
+    font-size: 36px;
+    color: #007bff; /* Blue color for icons */
+    margin: 0 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .icon svg:hover {
+    color: #0056b3; /* Darker blue color on hover */
+  }
+  
