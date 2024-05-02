@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
 
 import lightning from "../assets/lightning.png"
@@ -7,12 +7,30 @@ import "./Header.scss"
 
 const Header = () => {
   const [arrowDown,setArrowDown]=useState(false)
+  const [scrolled,setScrolled]=useState(false)
+
+  const handleScroll=()=>{
+    const offset=window.scrollY;
+    if(offset > 200){
+      setScrolled(true)
+    }else{
+      setScrolled(false)
+    }
+  }
+
+  useEffect(()=>{
+window.addEventListener('scroll',handleScroll);
+
+return ()=>{
+  window.removeEventListener('scroll',handleScroll)
+}
+  },[])
 
   const toggleArrowDir=()=>{
     setArrowDown(!arrowDown)
   }
   return (
-    <div className='main-header'>
+    <div className={`main-header ${scrolled? 'sticky-header':""}`}>
       
         <div className="header-content">
           <div className="left">
