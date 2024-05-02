@@ -55,4 +55,20 @@
   .icon svg:hover {
     color: #0056b3; /* Darker blue color on hover */
   }
+  /* Homepage.scss */
+
+.loading-bar {
+  width: 100%; /* Set the width of the loading bar */
+  height: 10px; /* Set the height of the loading bar */
+  background-color: #ccc; /* Gray background color for the loading bar */
+  border-radius: 5px; /* Rounded corners */
+  overflow: hidden; /* Hide overflowing content */
+}
+
+.progress {
+  height: 100%; /* Set the height of the progress bar to fill the loading bar */
+  background-color: #007bff; /* Blue color for the progress bar */
+  transition: width 0.3s ease; /* Smooth transition for width changes */
+}
+
   
