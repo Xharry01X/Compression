@@ -53,7 +53,7 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-      {open && <CompressArea />}
+      {open && <CompressArea setOpen={setOpen} />}
     </>
   );
 };
