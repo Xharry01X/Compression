@@ -1,19 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { FaGoogleDrive } from "react-icons/fa";
 import { FaDropbox } from "react-icons/fa6";
-
 import "./Homepage.scss";
 import CompressArea from '../compressarea/CompressArea';
 
 const Homepage = () => {
-  const [fileContainer,setFileContainer]=useState([])
+  const [fileContainer, setFileContainer] = useState([]);
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
 
+  // Function to send the file to the backend for compression
+  const sendFileToBackend = async (file) => {
+    const formData = new FormData();
+    formData.append('pdf', file);
+
+    try {
+      const response = await fetch('http://localhost:4000/compress', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Optionally handle response here
+    } catch (error) {
+      console.error('Error compressing PDF:', error);
+    }
+  };
+
+  // Function to handle file upload
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    setFileContainer(file)
+    setFileContainer(file);
+
+    // Call the function to send the file to the backend for compression
+    sendFileToBackend(file);
+
     const interval = setInterval(() => {
       setProgress((prevProgress) => {
         const newProgress = prevProgress + 10;

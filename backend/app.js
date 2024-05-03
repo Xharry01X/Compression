@@ -1,42 +1,43 @@
-// server.js
-
 const express = require('express');
 const multer = require('multer');
-const compressPdf = require('compress-pdf');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const port = 4000;
 
-// Set up multer for handling file uploads
-const upload = multer({ dest: 'uploads/' });
-
-// Endpoint for uploading and compressing PDF files
-app.post('/compress', upload.single('pdf'), async (req, res) => {
-  try {
-    // Check if file exists
-    if (!req.file) {
-      return res.status(400).send('No file uploaded');
-    }
-
-    // Compress PDF
-    const compressedPdf = await compressPdf(req.file.path);
-
-    // Send compressed PDF as response
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=compressed.pdf');
-    fs.createReadStream(compressedPdf).pipe(res);
-
-    // Clean up temporary files
-    fs.unlinkSync(req.file.path);
-    fs.unlinkSync(compressedPdf);
-  } catch (error) {
-    console.error('Error compressing PDF:', error);
-    res.status(500).send('Internal server error');
+// Multer configuration for file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
   }
 });
 
-// Start the server
+const upload = multer({ storage: storage });
+
+// Endpoint to handle file upload
+app.post('/compress', upload.single('pdf'), (req, res) => {
+  const { path: filePath } = req.file;
+
+  // Get file size
+  fs.stat(filePath, (err, stats) => {
+    if (err) {
+      console.error('Error getting file size:', err);
+      return res.status(500).send('Error getting file size');
+    }
+    const fileSizeInBytes = stats.size;
+    const fileSizeInKilobytes = fileSizeInBytes / 1024;
+    console.log('File size:', fileSizeInKilobytes, 'KB');
+
+    // You can send the file size or send the file data here as per your requirement
+    // For example:
+    res.json({ fileSize: fileSizeInKilobytes });
+  });
+});
+
 app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
