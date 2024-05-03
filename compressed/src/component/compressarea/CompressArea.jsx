@@ -3,12 +3,23 @@ import {AiOutlineClose} from "react-icons/ai"
 import { FaCheckCircle } from "react-icons/fa";
 import "./CompressArea.scss"
 
-const CompressArea = ({setOpen}) => {
+const CompressArea = ({setOpen,fileContainer}) => {
     const [selectedPoint,setSelectedPoint]=useState(null)
 
     const handlePointSelect=(point)=>{
     setSelectedPoint(point)
     }
+
+    const compressFile=()=>{
+      if(selectedPoint){
+        console.log("Compressing File",fileContainer);
+        setOpen(false)
+      }else{
+        alert("Please select a compression first")
+      }
+    }
+
+    console.log(fileContainer)
     return (
         <div className="cart-panel">
         <div className="opac-layer"></div>
@@ -44,7 +55,7 @@ const CompressArea = ({setOpen}) => {
             {selectedPoint === 'LESS COMPRESSION' && <FaCheckCircle />}
             </div>
             <div className="line"/>
-            <div className="button">
+            <div className="button" onClick={compressFile}>
               Compress File
             </div>
            </div>

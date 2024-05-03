@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { FaGoogleDrive } from "react-icons/fa";
 import { FaDropbox } from "react-icons/fa6";
+
 import "./Homepage.scss";
 import CompressArea from '../compressarea/CompressArea';
 
 const Homepage = () => {
+  const [fileContainer,setFileContainer]=useState("")
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    console.log(file);
+    setFileContainer(file)
     const interval = setInterval(() => {
       setProgress((prevProgress) => {
         const newProgress = prevProgress + 10;
@@ -53,7 +55,7 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-      {open && <CompressArea setOpen={setOpen} />}
+      {open && <CompressArea setOpen={setOpen} fileContainer={fileContainer} />}
     </>
   );
 };
