@@ -6,7 +6,7 @@ import "./Homepage.scss";
 import CompressArea from '../compressarea/CompressArea';
 
 const Homepage = () => {
-  const [fileContainer,setFileContainer]=useState("")
+  const [fileContainer,setFileContainer]=useState([])
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
