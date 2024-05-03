@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
-import { saveAs } from 'file-saver';
-import { PDFDocument, PDFImage } from 'pdf-lib';
+
 import "./CompressArea.scss";
 
 const CompressArea = ({ setOpen, fileContainer }) => {
@@ -15,34 +14,7 @@ const CompressArea = ({ setOpen, fileContainer }) => {
     const compressFile = async () => {
       if (selectedPoint && fileContainer) {
           try {
-              console.log("Starting compression...");
-  
-              const pdfBytes = await fileContainer.arrayBuffer();
-              console.log("PDF loaded:", pdfBytes.byteLength, "bytes");
-  
-              const pdfDoc = await PDFDocument.load(pdfBytes);
-              console.log("PDF document loaded");
-  
-              // Iterate over each page of the PDF
-              for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-                  const page = pdfDoc.getPage(i);
-  
-                  // Extract images from the page
-                  const images = await page.extractImages();
-                  console.log("Page", i, "images:", images.length);
-  
-                  // Compress images
-                  for (const image of images) {
-                      // Your compression logic here
-                  }
-              }
-  
-              const modifiedPdfBytes = await pdfDoc.save();
-              console.log("Compression finished. New PDF size:", modifiedPdfBytes.byteLength, "bytes");
-  
-              const modifiedPdfBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
-              saveAs(modifiedPdfBlob, 'compressed.pdf');
-              console.log("Compressed PDF saved");
+            
   
               setOpen(false);
           } catch (error) {
