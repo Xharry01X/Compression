@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
 import { saveAs } from 'file-saver';
-import { PDFDocument, rgb } from 'pdf-lib'; // Import PDFDocument from 'pdf-lib'
-
+import { PDFDocument } from 'pdf-lib'; // Only import PDFDocument from 'pdf-lib'
+import axios from 'axios'; // Import Axios
 import "./CompressArea.scss";
 
 const CompressArea = ({ setOpen, fileContainer }) => {
@@ -18,24 +18,31 @@ const CompressArea = ({ setOpen, fileContainer }) => {
             try {
                 const pdfBytes = await fileContainer.arrayBuffer();
                 const pdfDoc = await PDFDocument.load(pdfBytes);
-    
-                // Remove all images from each page
-                pdfDoc.getPages().forEach((page) => {
-                    const { width, height } = page.getSize();
-                    page.drawImage(' ', {
-                        x: 0,
-                        y: 0,
-                        width: width,
-                        height: height,
-                    });
-                });
-    
+
+                // Your logic for compression goes here...
+
                 const modifiedPdfBytes = await pdfDoc.save();
-    
-                // Download the modified PDF with reduced size
                 const modifiedPdfBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
                 saveAs(modifiedPdfBlob, 'compressed.pdf');
-    
+
+                console.log('Compressed PDF:', modifiedPdfBytes); // Log the compressed PDF data
+
+                // Prepare FormData
+                const formData = new FormData();
+                formData.append('file', new Blob([pdfBytes]), 'original.pdf');
+                formData.append('id', '1');
+                formData.append('compressionLevel', "low"); // Assuming selectedPoint holds the compression level
+
+                // Send Axios request
+                const response = await axios.post('https://api.pdfrest.com/compressed-pdf', formData, {
+                    headers: {
+                        'Api-Key': '4d7b75a5-026f-4538-a154-e87b00e0b736',
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    maxBodyLength: Infinity
+                });
+                console.log('Response:', response.data);
+
                 setOpen(false);
             } catch (error) {
                 console.error('Error compressing PDF:', error);
@@ -58,22 +65,22 @@ const CompressArea = ({ setOpen, fileContainer }) => {
                     <div className="subtotal">
                         <span className='text'>Compressing by selecting </span>
                     </div>
-                    <div className="points" onClick={() => handlePointSelect('EXTREME COMPRESSION')}>
-                        <p>EXTREME COMPRESSION</p>
+                    <div className="points" onClick={() => handlePointSelect('EXTREME')}>
+                        <p>EXTREME</p>
                         <text>Less quality, High Compression</text>
-                        {selectedPoint === 'EXTREME COMPRESSION' && <FaCheckCircle />}
+                        {selectedPoint === 'EXTREME' && <FaCheckCircle />}
                     </div>
                     <div className="line" />
-                    <div className="points" onClick={() => handlePointSelect('RECOMMENDED COMPRESSION')}>
-                        <p>RECOMMENDED COMPRESSION</p>
+                    <div className="points" onClick={() => handlePointSelect('RECOMMENDED')}>
+                        <p>RECOMMENDED</p>
                         <text>Good quality, Good Compression</text>
-                        {selectedPoint === 'RECOMMENDED COMPRESSION' && <FaCheckCircle />}
+                        {selectedPoint === 'RECOMMENDED' && <FaCheckCircle />}
                     </div>
                     <div className="line" />
-                    <div className="points" onClick={() => handlePointSelect('LESS COMPRESSION')}>
-                        <p>LESS COMPRESSION</p>
+                    <div className="points" onClick={() => handlePointSelect('LESS')}>
+                        <p>LESS</p>
                         <text>High quality, Less Compression</text>
-                        {selectedPoint === 'LESS COMPRESSION' && <FaCheckCircle />}
+                        {selectedPoint === 'LESS' && <FaCheckCircle />}
                     </div>
                     <div className="line" />
                     <div className="button" onClick={compressFile}>
