@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
+import { saveAs } from 'file-saver';
+import { PDFDocument, rgb } from 'pdf-lib'; // Import PDFDocument from 'pdf-lib'
 
 import "./CompressArea.scss";
 
@@ -12,19 +14,36 @@ const CompressArea = ({ setOpen, fileContainer }) => {
     }
 
     const compressFile = async () => {
-      if (selectedPoint && fileContainer) {
-          try {
-            
-  
-              setOpen(false);
-          } catch (error) {
-              console.error('Error compressing PDF:', error);
-          }
-      } else {
-          alert("Please select a compression option first");
-      }
-  }
-  
+        if (selectedPoint && fileContainer) {
+            try {
+                const pdfBytes = await fileContainer.arrayBuffer();
+                const pdfDoc = await PDFDocument.load(pdfBytes);
+    
+                // Remove all images from each page
+                pdfDoc.getPages().forEach((page) => {
+                    const { width, height } = page.getSize();
+                    page.drawImage(' ', {
+                        x: 0,
+                        y: 0,
+                        width: width,
+                        height: height,
+                    });
+                });
+    
+                const modifiedPdfBytes = await pdfDoc.save();
+    
+                // Download the modified PDF with reduced size
+                const modifiedPdfBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+                saveAs(modifiedPdfBlob, 'compressed.pdf');
+    
+                setOpen(false);
+            } catch (error) {
+                console.error('Error compressing PDF:', error);
+            }
+        } else {
+            alert("Please select a compression option first");
+        }
+    }
 
     return (
         <div className="cart-panel">
