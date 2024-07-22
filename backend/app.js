@@ -9,7 +9,7 @@ const app = express();
 const port = 3000;
 
 const data = [
-    "https://routinehub.co/"
+    "https://routinehub.co/user/JonathanSetzer"
 ];
 const API_KEY = "5Y7PW9FBOHHTG8OXMFGIPZHVTJRFR1QSHUFVM2PTX0TXBDDZVC24U8FW4U70Z8EBVH5FSELSMRGFWYBQ";  // Replace with your actual API key
 const config = (url) => {
